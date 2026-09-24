@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Future Me</title>
+  <defs>
+    <linearGradient id="fm-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7b6cff" />
+      <stop offset="1" stop-color="#ff8a5b" />
+    </linearGradient>
+    <linearGradient id="fm-heart" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" />
+      <stop offset="1" stop-color="#ffd6e0" />
+    </linearGradient>
+  </defs>
+  <style>
+    .envelope { animation: bob 3.2s ease-in-out infinite; transform-origin: 32px 42px; }
+    .heart { animation: rise 3.2s ease-in-out infinite; transform-origin: 32px 28px; }
+    .spark { animation: twinkle 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .spark-2 { animation-delay: 0.8s; }
+    .spark-3 { animation-delay: 1.6s; }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-1.5px); }
+    }
+    @keyframes rise {
+      0% { transform: translateY(7px) scale(0.55); opacity: 0; }
+      25% { opacity: 1; }
+      60% { transform: translateY(-3px) scale(1); opacity: 1; }
+      100% { transform: translateY(-9px) scale(0.85); opacity: 0; }
+    }
+    @keyframes twinkle {
+      0%, 100% { transform: scale(0.4) rotate(0deg); opacity: 0.2; }
+      50% { transform: scale(1) rotate(45deg); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .envelope, .heart, .spark { animation: none; }
+    }
+  </style>
+
+  <rect class="bg" width="64" height="64" rx="16" fill="url(#fm-bg)" />
+
+  <g class="art">
+    <!-- sparkles -->
+    <path class="spark" d="M50 10 L51.4 13.6 L55 15 L51.4 16.4 L50 20 L48.6 16.4 L45 15 L48.6 13.6 Z" fill="#fff" />
+    <path class="spark spark-2" d="M13 15 L13.9 17.1 L16 18 L13.9 18.9 L13 21 L12.1 18.9 L10 18 L12.1 17.1 Z" fill="#fff" />
+    <path class="spark spark-3" d="M53 27 L53.6 28.4 L55 29 L53.6 29.6 L53 31 L52.4 29.6 L51 29 L52.4 28.4 Z" fill="#fff" />
+
+    <!-- heart rising out of the envelope -->
+    <g class="heart">
+      <path d="M32 35 C26 31 22.5 28 22.5 24.2 C22.5 21.4 24.7 19.4 27.3 19.4 C29.3 19.4 31 20.6 32 22.4 C33 20.6 34.7 19.4 36.7 19.4 C39.3 19.4 41.5 21.4 41.5 24.2 C41.5 28 38 31 32 35 Z" fill="url(#fm-heart)" />
+    </g>
+
+    <!-- envelope -->
+    <g class="envelope">
+      <rect x="13" y="30" width="38" height="24" rx="5" fill="#fff" />
+      <path d="M15 33 L32 45 L49 33" fill="none" stroke="#7b6cff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M15 52 L26.5 41.5 M49 52 L37.5 41.5" fill="none" stroke="#ffb49a" stroke-width="2" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>

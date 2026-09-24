@@ -1,0 +1,16 @@
+{
+  "name": "Future Me — Letters to your future self",
+  "short_name": "Future Me",
+  "description": "Write a letter to your future self and seal it until the day it's meant to be read.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0c15",
+  "theme_color": "#6a5af9",
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

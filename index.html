@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Write a letter to your future self and seal it until the day it's meant to be read." />
+  <title>Future Me — Letters to your future self</title>
+  <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0d0c15" media="(prefers-color-scheme: dark)" />
+  <link rel="canonical" href="https://mutkukucuk.github.io/FUTURE-ME/" />
+
+  <!-- Social previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Future Me" />
+  <meta property="og:title" content="Future Me — Letters to your future self" />
+  <meta property="og:description" content="Seal a message today. It stays locked until the day you choose — then it opens, just for you." />
+  <meta property="og:url" content="https://mutkukucuk.github.io/FUTURE-ME/" />
+  <meta property="og:image" content="https://mutkukucuk.github.io/FUTURE-ME/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Future Me — Letters to your future self" />
+  <meta name="twitter:description" content="Seal a message today. It stays locked until the day you choose — then it opens, just for you." />
+  <meta name="twitter:image" content="https://mutkukucuk.github.io/FUTURE-ME/assets/og-image.png" />
+
+  <!-- Icons -->
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="assets/icon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <noscript>
+    <p class="noscript">Future Me needs JavaScript to seal and open your letters. Please enable it and reload the page.</p>
+  </noscript>
+
+  <!-- Decorative floating background orbs -->
+  <div class="orbs" aria-hidden="true">
+    <span class="orb orb-1"></span>
+    <span class="orb orb-2"></span>
+    <span class="orb orb-3"></span>
+  </div>
+
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <header class="site-header container">
+    <a class="brand" href="#" aria-label="Future Me home">
+      <img class="brand-mark" src="assets/icon.svg" alt="" width="38" height="38" />
+      <span class="brand-name">Future&nbsp;Me</span>
+    </a>
+    <button id="theme-toggle" class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.5" fill="currentColor" />
+        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+        </g>
+      </svg>
+    </button>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">A time capsule for your thoughts</p>
+      <h1 class="hero-title">Write to the person<br /><em>you're becoming.</em></h1>
+      <p class="hero-sub">Seal a message today. It stays locked until the day you choose — then it opens, just for you.</p>
+
+      <figure id="quote-card" class="quote-card">
+        <blockquote id="quote-text" class="quote-text"></blockquote>
+        <figcaption class="quote-foot">
+          <span id="quote-author" class="quote-author"></span>
+          <button id="quote-next" class="text-btn" type="button" aria-label="Show another quote">
+            Another one
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5" /></svg>
+          </button>
+        </figcaption>
+      </figure>
+    </section>
+
+    <div class="layout">
+      <!-- Compose -->
+      <section class="panel compose" id="compose" aria-labelledby="compose-title">
+        <h2 id="compose-title" class="panel-title">New letter</h2>
+        <p class="panel-sub">Be honest. Future you will know anyway.</p>
+
+        <form id="compose-form" novalidate>
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" maxlength="60" autocomplete="given-name" placeholder="e.g. Alex" required />
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="message">Message to future you</label>
+              <span id="char-count" class="char-count" aria-live="polite">0 / 2000</span>
+            </div>
+            <textarea id="message" name="message" rows="6" maxlength="2000" placeholder="Dear future me, right now I'm…" required></textarea>
+          </div>
+
+          <div class="field">
+            <label for="unlock-date">Open on</label>
+            <input id="unlock-date" name="unlock-date" type="datetime-local" required />
+            <div class="presets" id="presets" role="group" aria-label="Quick date presets">
+              <button type="button" class="chip" data-preset="demo">2 min <small>demo</small></button>
+              <button type="button" class="chip" data-preset="week">1 week</button>
+              <button type="button" class="chip" data-preset="month">1 month</button>
+              <button type="button" class="chip" data-preset="half">6 months</button>
+              <button type="button" class="chip" data-preset="year">1 year</button>
+            </div>
+          </div>
+
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+
+          <button type="submit" class="btn-primary">
+            <span>Seal &amp; send to the future</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
+          </button>
+          <p class="hint">Tip: press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>Enter</kbd> to seal.</p>
+        </form>
+      </section>
+
+      <!-- Dashboard -->
+      <section class="panel dashboard" id="dashboard" aria-labelledby="dash-title">
+        <div class="dash-head">
+          <div>
+            <h2 id="dash-title" class="panel-title">Your time capsule</h2>
+            <p id="next-up" class="panel-sub">No letters yet.</p>
+          </div>
+          <dl class="stats">
+            <div class="stat"><dt>Total</dt><dd id="stat-total">0</dd></div>
+            <div class="stat"><dt>Sealed</dt><dd id="stat-sealed">0</dd></div>
+            <div class="stat"><dt>Opened</dt><dd id="stat-opened">0</dd></div>
+          </dl>
+        </div>
+
+        <div class="filters" id="filters" role="group" aria-label="Filter letters">
+          <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" class="filter" data-filter="sealed" aria-pressed="false">Sealed</button>
+          <button type="button" class="filter" data-filter="opened" aria-pressed="false">Opened</button>
+        </div>
+
+        <div id="capsule-list" class="capsule-list" aria-live="polite"></div>
+
+        <div id="empty-state" class="empty" hidden>
+          <div class="empty-art" aria-hidden="true">📭</div>
+          <p class="empty-title">Nothing here yet</p>
+          <p class="empty-sub">Write your first letter — future you is waiting.</p>
+        </div>
+
+        <div class="dash-actions">
+          <p class="dash-note">Letters live only in this browser. Keep a backup so you never lose them.</p>
+          <div class="dash-buttons">
+            <button id="export-btn" class="text-btn" type="button">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
+              Back up
+            </button>
+            <label class="text-btn file-btn">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 21V9M7 14l5-5 5 5M5 3h14" /></svg>
+              Restore
+              <input id="import-input" class="visually-hidden" type="file" accept="application/json,.json" />
+            </label>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer container">
+    <p>Letters are stored only in this browser. Made with care for whoever you'll be.</p>
+    <p><a href="https://github.com/mutkukucuk/FUTURE-ME" target="_blank" rel="noopener">Open source on GitHub</a> · MIT License</p>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <!-- Card template -->
+  <template id="capsule-template">
+    <article class="capsule is-sealed">
+      <div class="capsule-top">
+        <span class="status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="status-text">Sealed</span>
+        </span>
+        <button class="delete-btn" type="button" aria-label="Delete letter">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14" /></svg>
+          <span class="delete-confirm">Delete?</span>
+        </button>
+      </div>
+
+      <p class="capsule-meta">From <strong class="capsule-from"></strong> · written <time class="capsule-written"></time></p>
+
+      <div class="sealed-view">
+        <div class="countdown">
+          <div class="unit"><span class="num" data-unit="d">0</span><span class="lbl">days</span></div>
+          <div class="unit"><span class="num" data-unit="h">00</span><span class="lbl">hrs</span></div>
+          <div class="unit"><span class="num" data-unit="m">00</span><span class="lbl">min</span></div>
+          <div class="unit"><span class="num" data-unit="s">00</span><span class="lbl">sec</span></div>
+        </div>
+
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Time until this letter opens">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="progress-meta">
+          <span class="progress-pct">0%</span>
+          <span>Opens <time class="capsule-unlock"></time></span>
+        </div>
+
+        <div class="envelope" aria-hidden="true">
+          <span class="line"></span><span class="line"></span><span class="line short"></span>
+          <span class="seal">✦</span>
+        </div>
+      </div>
+
+      <div class="opened-view" hidden>
+        <p class="letter-label">A letter from your past self</p>
+        <p class="letter-body"></p>
+        <p class="letter-sign">— <span class="letter-name"></span></p>
+      </div>
+    </article>
+  </template>
+</body>
+</html>
