@@ -147,8 +147,14 @@
 
   function initTheme() {
     const saved = safeGet(THEME_KEY);
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    applyTheme(saved === 'dark' || saved === 'light' ? saved : systemDark ? 'dark' : 'light');
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+    applyTheme(saved === 'dark' || saved === 'light' ? saved : systemDark.matches ? 'dark' : 'light');
+
+    // Follow OS theme changes until the user picks a theme explicitly.
+    systemDark.addEventListener('change', (e) => {
+      const pref = safeGet(THEME_KEY);
+      if (pref !== 'dark' && pref !== 'light') applyTheme(e.matches ? 'dark' : 'light');
+    });
 
     els.themeToggle.addEventListener('click', () => {
       const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -267,14 +273,25 @@
   })();
 
   // ---------- Compose form ----------
+  // Add months without overflowing short months (Jan 31 + 1 month → Feb 28/29, not Mar 3).
+  function addMonths(d, n) {
+    const day = d.getDate();
+    d.setDate(1);
+    d.setMonth(d.getMonth() + n);
+    const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+    d.setDate(Math.min(day, lastDay));
+  }
+
   function presetDate(key) {
     const d = new Date();
     switch (key) {
-      case 'demo': d.setMinutes(d.getMinutes() + 2); break;
+      // Round up to the next whole minute: the input drops seconds, which could
+      // otherwise leave barely more than MIN_LEAD_MS of lead time.
+      case 'demo': d.setMinutes(d.getMinutes() + 2, 60, 0); break;
       case 'week': d.setDate(d.getDate() + 7); break;
-      case 'month': d.setMonth(d.getMonth() + 1); break;
-      case 'half': d.setMonth(d.getMonth() + 6); break;
-      case 'year': d.setFullYear(d.getFullYear() + 1); break;
+      case 'month': addMonths(d, 1); break;
+      case 'half': addMonths(d, 6); break;
+      case 'year': addMonths(d, 12); break;
     }
     return d;
   }
@@ -435,8 +452,13 @@
           showOpened(card, m);
         } else {
           // Arrived while you were away — play the reveal, staggered.
+          // `queued` keeps tick() from revealing it early and collapsing the stagger.
           updateCountdown(card, m, now);
-          setTimeout(() => reveal(card, m), 500 + revealQueue++ * 700);
+          card.dataset.queued = '';
+          setTimeout(() => {
+            delete card.dataset.queued;
+            reveal(card, m);
+          }, 500 + revealQueue++ * 700);
         }
       } else {
         updateCountdown(card, m, now);
@@ -489,6 +511,7 @@
   }
 
   function removeMessage(id, card) {
+    if (card.classList.contains('is-removing')) return;
     card.classList.add('is-removing');
     setTimeout(() => {
       messages = messages.filter((m) => m.id !== id);
@@ -611,7 +634,11 @@
 
       const known = new Set(messages.map((m) => m.id));
       const added = incoming
-        .filter((m) => isValidMessage(m) && !known.has(m.id))
+        .filter((m) => {
+          if (!isValidMessage(m) || known.has(m.id)) return false;
+          known.add(m.id); // also drops duplicates within the file itself
+          return true;
+        })
         .map((m) => ({
           id: m.id,
           name: typeof m.name === 'string' ? m.name.slice(0, 60) : '',
@@ -645,12 +672,15 @@
       const m = findMessage(id);
       if (!m || !card.classList.contains('is-sealed') || card.classList.contains('is-unsealing')) continue;
       updateCountdown(card, m, now);
-      if (isUnlocked(m, now)) reveal(card, m);
+      if (isUnlocked(m, now) && !('queued' in card.dataset)) reveal(card, m);
     }
 
     // A letter arrived that's hidden by the current filter — re-render so it can appear.
-    for (const m of messages) {
-      if (!m.seen && isUnlocked(m, now) && !cards.has(m.id)) needsRender = true;
+    // The "sealed" filter never shows unlocked letters, so re-rendering there would loop forever.
+    if (currentFilter !== 'sealed') {
+      for (const m of messages) {
+        if (!m.seen && isUnlocked(m, now) && !cards.has(m.id)) needsRender = true;
+      }
     }
 
     if (needsRender) {

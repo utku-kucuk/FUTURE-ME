@@ -30,7 +30,7 @@ Seal a letter to your future self today. It stays locked until the day you choos
 | 💌 **Write & seal** | Your name, a letter (up to 2,000 characters) and the exact date and time it should open. Quick presets for 1 week, 1 month, 6 months, 1 year — or a 2-minute demo. |
 | ⏳ **Live countdown** | Every sealed letter ticks down in days, hours, minutes and seconds, with a progress bar showing how far along the wait you are. |
 | 🎉 **Reveal animation** | When the moment arrives, the wax seal breaks, the letter unfolds and confetti bursts. Letters that arrived while you were away are revealed the next time you visit. |
-| 🔒 **Truly sealed** | A sealed letter's text is never rendered into the page until its date — no peeking with dev tools. |
+| 🔒 **Sealed** | A sealed letter's text is never rendered into the page until its date, so there's no accidental peeking. |
 | 🌗 **Dark / light mode** | Follows your system setting by default; your choice is remembered. |
 | 💬 **Motivational quotes** | A rotating collection of quotes about time, growth and beginnings. |
 | 💾 **Back up & restore** | Letters live in your browser's `localStorage`. Export them to a JSON file and restore them on any device. |
@@ -124,6 +124,8 @@ A single one-second clock updates every visible countdown in place (no re-render
 Everything stays on your device. There is no server, no account, no analytics and no tracking — your letters never leave your browser unless you export a backup yourself.
 
 Because letters are stored per browser, clearing your site data or switching browsers will hide them. Use **Back up** to keep a copy.
+
+The seal is a commitment device, not encryption: letters are stored as plain text in `localStorage` and in backup files, so anyone with access to your browser or a backup can read them early.
 
 ## 🧭 Browser support
 
