@@ -8,12 +8,12 @@
 
 Seal a letter to your future self today. It stays locked until the day you choose — then it opens, just for you.
 
-[![Live demo](https://img.shields.io/badge/demo-live-6a5af9?style=for-the-badge&logo=github)](https://mutkukucuk.github.io/FUTURE-ME/)
+[![Live demo](https://img.shields.io/badge/demo-live-6a5af9?style=for-the-badge&logo=github)](https://utku-kucuk.github.io/FUTURE-ME/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-ff8a5b?style=for-the-badge)](LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/vanilla-JS-f7df1e?style=for-the-badge&logo=javascript&logoColor=000)](script.js)
 ![No dependencies](https://img.shields.io/badge/dependencies-0-17a174?style=for-the-badge)
 
-### [Open the live app →](https://mutkukucuk.github.io/FUTURE-ME/)
+### [Open the live app →](https://utku-kucuk.github.io/FUTURE-ME/)
 
 <br />
 
@@ -62,7 +62,7 @@ Seal a letter to your future self today. It stays locked until the day you choos
 No build step, no dependencies — just three files.
 
 ```bash
-git clone https://github.com/mutkukucuk/FUTURE-ME.git
+git clone https://github.com/utku-kucuk/FUTURE-ME.git
 cd FUTURE-ME
 ```
 
